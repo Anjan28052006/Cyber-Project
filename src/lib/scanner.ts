@@ -44,9 +44,10 @@ function fmtHex(buffer: ArrayBuffer) {
 }
 
 export async function hashFile(bytes: Uint8Array) {
+  const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
   const [sha1, sha256] = await Promise.all([
-    crypto.subtle.digest("SHA-1", bytes),
-    crypto.subtle.digest("SHA-256", bytes),
+    crypto.subtle.digest("SHA-1", buf),
+    crypto.subtle.digest("SHA-256", buf),
   ]);
   return {
     md5: md5(bytes),
